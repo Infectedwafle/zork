@@ -2,8 +2,8 @@ require "./models/weapons/weapon"
 
 class ChocolateBar < Weapon
 	def initialize()
-		@name = 'Sour Straw';
-		@attack_modifier = Random.rand(1.0..1.75);
-		@uses = 2;
+		@name = 'Chocolate Bar';
+		@attack_modifier = Random.rand(2.0..2.4);
+		@uses = 4;
 	end
 end

@@ -1,7 +1,10 @@
-require "./models/monsters/vampire"
+require "./models/neighborhood";
 
-guy = Vampire.new();
+neighborhood = Neighborhood.new();
 
-puts guy.type
-puts guy.health
-puts guy.attack
+for home in neighborhood.houses do
+	puts home.poppulation
+	for monster in home.monsters do
+		puts monster.type
+	end
+end

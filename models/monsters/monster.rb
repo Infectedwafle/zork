@@ -9,4 +9,3 @@ class Monster
 	attr_accessor :health
 	attr_accessor :attack
 end
-
