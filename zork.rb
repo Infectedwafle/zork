@@ -1,10 +1,23 @@
-require "./models/neighborhood";
+require "./models/game";
+require 'artii';
 
-neighborhood = Neighborhood.new();
+game = Game.new();
+a = Artii::Base.new :font => 'slant'
 
-for home in neighborhood.houses do
-	puts home.poppulation
-	for monster in home.monsters do
-		puts monster.type
-	end
+
+puts a.asciify('ZORK!');
+puts "1 - Start the Game";
+puts "2 - Options";
+puts "3 - Quit";
+
+choice = gets.chomp.to_i;
+
+if(choice == 1)
+	game.start();
+elsif(choice ==2)
+	puts "Options will be available in a future update"
+	# game.options();
+else
+	puts "You have made a cowardly choice and ran away."
+	puts "You were later mauled by a wereworlf no one feels bad for you."
 end

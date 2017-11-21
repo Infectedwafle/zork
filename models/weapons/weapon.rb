@@ -1,4 +1,6 @@
-class Weapon
+require "observer";
+
+class Weapon include Observable
 	def initialize()
 		@name = 'weapon';
 		@attack_modifier = 1;
