@@ -40,6 +40,7 @@ class Home include Observable
 
 	attr_accessor :monsters
 	attr_accessor :poppulation
+	attr_reader   :cleared
 end
 
 class MonsterDefeated

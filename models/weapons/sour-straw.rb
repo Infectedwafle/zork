@@ -1,6 +1,6 @@
 require "./models/weapons/weapon"
 
-class ChocolateBar < Weapon
+class SourStraw < Weapon
 	def initialize()
 		@name = 'Sour Straw';
 		@attack_modifier = Random.rand(1.0..1.75);

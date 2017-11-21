@@ -3,14 +3,14 @@ require "observer";
 
 class Neighborhood include Observable
 	def initialize(houseCount = 3)
-		@houses = Array.new();
+		@homes = Array.new();
 
 		for i in 1..houseCount do
-			@houses << Home.new();
+			@homes << Home.new();
 		end
 	end
 
-	attr_accessor :houses
+	attr_accessor :homes
 end
 
 class HomeCleansed
