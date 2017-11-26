@@ -16,7 +16,7 @@ if(choice == 1)
 	system("cls");
 	game.start();
 	game.runLoop();
-elsif(choice ==2)
+elsif(choice == 2)
 	puts "Options will be available in a future update"
 	# game.options();
 else

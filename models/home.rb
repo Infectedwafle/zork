@@ -9,7 +9,7 @@ class Home include Observable
 	def initialize()
 		@poppulation = Random.rand(1..10);
 		@monsters = Array.new();
-		@cleared = false;
+		@monsterPopp = 0;
 
 		for i in 1..@poppulation do
 			randNum = Random.rand(1..5);
@@ -17,34 +17,48 @@ class Home include Observable
 			case randNum
 			when 1
 				monster = Ghoul.new();
+				@monsterPopp = @monsterPopp + 1;
 			when 2
-				monster = Person.new();
+				monster = Person.new(); #Not a monster
 			when 3
 				monster = Vampire.new();
+				@monsterPopp = @monsterPopp + 1;
 			when 4
 				monster = Werewolf.new();
+				@monsterPopp = @monsterPopp + 1;
 			when 5
 				monster = Zombie.new();
+				@monsterPopp = @monsterPopp + 1;
 			end
 			
-			self.add_observer(MonsterDefeated.new(monster));
+			MonsterDefeated.new(monster);
 			@monsters << monster;
 		end
 	end
 
-	def getMonsterCount()
-		tempMonsters = @monsters.select { |m| m.type != 'person'}; 
-		return tempMonsters.length;
+	def getMonsterPoppulation()
+		return @monsterPopp;
+	end
+
+	def reduceMonsterPopp()
+		@monsterPopp = @monsterPopp - 1;
+		changed;
+		notify_observers();
 	end
 
 	def getStatus()
 		puts "#{self.getMonsterCount()} monsters remaining";
 	end
 
+	def monsterStats()
+		@monsters.each do |monster|
+			puts "#{monster.type} - Health: #{monster.health}";
+		end
+	end
+
 
 	attr_accessor :monsters
 	attr_accessor :poppulation
-	attr_reader   :cleared
 end
 
 class MonsterDefeated
@@ -52,12 +66,10 @@ class MonsterDefeated
 		monster.add_observer(self);
 	end
 
-	def update(monster, health)
-
-		if(monster.health <= 0)
-			monster.type = 'person';
-			monster.health = 100;
-			monster.attack = -1;
+	def update(monster, home);
+		if(monster != nil && home != nil)
+			home.monsters[home.monsters.index(monster)] = Person.new();
+			home.reduceMonsterPopp();
 		end
 	end
 end

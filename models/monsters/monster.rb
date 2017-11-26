@@ -7,10 +7,12 @@ class Monster include Observable
 		@attack = attack;
 	end
 
-	def takeDamage(damage) 
+	def takeDamage(damage, home) 
 		@health = @health - damage;
-		changed;
-		notify_observers(self, @health);
+		if(@health <= 0)
+			changed;
+			notify_observers(self, home);
+		end
 	end
 
 	attr_accessor :type

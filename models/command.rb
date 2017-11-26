@@ -3,33 +3,32 @@ class Command
 		@commands = Hash.new();
 
 		if(type == "house")
-			@commands["attack monster"] =	 "am";
-			@commands["attack"] =			 "am";
-			@commands["am"] =				 "am";
-			@commands["house status"] =		 "hs";
-			@commands["hs"] =				 "hs";
-			@commands["show inventory"] =	 "si";
-			@commands["si"] =				 "si";
-			@commands["exit house"] =		 "eh";
-			@commands["eh"] =				 "eh";
-		elsif(type == "attack")
-			@commands["a"] =				 "a";
-			@commands["attack"] =			 "a";
+			@commands["attack monster"] =	 	"am";
+			@commands["attack"] =			 	"am";
+			@commands["am"] =				 	"am";
+			@commands["house status"] =		 	"hs";
+			@commands["hs"] =				 	"hs";
+			@commands["show inventory"] =	 	"si";
+			@commands["si"] =				 	"si";
+			@commands["exit house"] =		 	"eh";
+			@commands["eh"] =				 	"eh";
 		else
-			@commands["left"] =				 "left";
-			@commands["west"] =				 "left";
-			@commands["right"] =			 "right";
-			@commands["east"] =				 "right";
-			@commands["up"] =				 "up";
-			@commands["north"] =			 "up";
-			@commands["down"] =				 "down";
-			@commands["south"] =			 "down";
-			@commands["show inventory"] =	 "si";
-			@commands["si"] =				 "si";
-			@commands["show map"] =			 "sm";
-			@commands["sm"] =				 "sm";
-			@commands["enter home"] =		 "eh";
-			@commands["eh"] =				 "eh";
+			@commands["left"] =				 	"left";
+			@commands["west"] =				 	"left";
+			@commands["right"] =			 	"right";
+			@commands["east"] =				 	"right";
+			@commands["up"] =				 	"up";
+			@commands["north"] =			 	"up";
+			@commands["down"] =				 	"down";
+			@commands["south"] =			 	"down";
+			@commands["show inventory"] =	 	"si";
+			@commands["si"] =				 	"si";
+			@commands["show map"] =			 	"sm";
+			@commands["sm"] =				 	"sm";
+			@commands["enter home"] =		 	"eh";
+			@commands["eh"] =				 	"eh";
+			@commands["neighborhood stats"] =	"ns";
+			@commands["ns"] =				 	"ns";
 		end
 	end
 

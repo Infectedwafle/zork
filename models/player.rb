@@ -6,7 +6,8 @@ require "./models/weapons/sour-straw";
 class Player
 	def initialize(name)
 		@name = name
-		@health = Random.rand(100..125);
+		@maxHealth = Random.rand(100..125);
+		@health = @maxHealth;
 		@attack = Random.rand(10..20);
 		@inventory = Array.new();
 		@location = 5;
@@ -28,10 +29,22 @@ class Player
 		end
 	end
 
-	def takeDamage(damage) 
+	def takeDamage(damage)
 		@health = @health - damage;
+
+		if @health < 0
+			@health = 0;
+		end
+
+		if(@health > @maxHealth)
+			@health = @maxHealth;
+		end
 	end
 
+	def stats()
+		puts "Player Health: #{@health}/#{@maxHealth}";
+		puts "Player Attack: #{@attack}";
+	end
 
 	attr_accessor :name;
 	attr_accessor :health;

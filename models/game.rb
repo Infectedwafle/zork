@@ -31,7 +31,6 @@ class Game
 		home = nil; 
 		
 		while(!gameWon)
-			puts "#{home}";
 			if(home === nil)
 				home = neighborhoodLoop(neighborhoodCommands, home);
 			else
@@ -39,10 +38,17 @@ class Game
 				home = nil;
 			end
 
+			if(@player.health == 0)
+				puts "You have died and failed everyone in your neighborhood.  Too Bad!";
+				return nil;
+			end
+
 			if(@neighborhood.all_clear())
 				gameWon = true;
 			end
 		end
+
+		puts "You have saved the neighborhood!!!"
 	end
 
 	def neighborhoodLoop(command, home)
@@ -87,8 +93,10 @@ class Game
 		when 'sm'
 			# print map of houses and monster count info
 		when 'eh'
-			home = @neighborhood.homes[@player.location - 1]
-			puts "You entered house number #{@player.location}"
+			puts "You entered house number #{@player.location}";
+			home = @neighborhood.homes[@player.location - 1];
+		when 'ns'
+			@neighborhood.stats();
 		else
 			puts "That is not a command.";
 		end
@@ -97,17 +105,18 @@ class Game
 	end
 
 	def homeLoop(commands, home)
-		attackCommands = Command.new("attack")
 		while(true) #wait for commands until house exited
 			case commands.getCommand()
 			
 			when 'am'
-				attackLoop(attackCommands, home)
+				attackLoop(home)
+
+				if(@player.health == 0)
+					return nil;
+				end
 			when 'hs'
 				# Show staus of house here
 				home.getStatus();
-			when 'si'
-				# show remaining inventory
 			when 'eh'
 				# exit the house
 				puts puts "You exited house number #{@player.location}"
@@ -118,40 +127,58 @@ class Game
 		end
 	end
 
-	def attackLoop(commands, home)
+	def attackLoop(home)
 		attacking = true;
-
+		
 		while attacking
-			case commands.getCommand()
-			when 'a'
-				puts "Choose a weapon";
-				for i in 1..@player.inventory.length do
-					if(@player.inventory[i-1].uses < 0)
-						puts "#{i} - #{@player.inventory[i-1].name} Unlimited uses"
-					else
-						puts "#{i} - #{@player.inventory[i-1].name} #{@player.inventory[i-1].uses} uses"
-					end
+			puts "Choose a weapon";
+			for i in 1..@player.inventory.length do
+				if(@player.inventory[i-1].uses < 0)
+					puts "#{i} - #{@player.inventory[i-1].name} Unlimited uses"
+				else
+					puts "#{i} - #{@player.inventory[i-1].name} #{@player.inventory[i-1].uses} uses"
 				end
+			end
 
-				weaponNumber = gets.chomp.to_i;
-				weapon = @player.inventory[weaponNumber - 1];
+			weaponNumber = gets.chomp.to_i;
+			weapon = @player.inventory[weaponNumber - 1];
 
-				# Player Attacks
-				home.monsters.each do |monster|
-					if(monster.type != 'person')
-						damage = @player.attack * weapon.attack_modifier;
-						monster.takeDamage(damage);
-						puts "You damaged #{monster.type} with #{weapon.name} for #{damage}";
-					end
+			# Player Attacks
+			home.monsters.each do |monster|
+				if(monster.type != "person")
+					damage = @player.attack * weapon.attack_modifier;
+					monster.takeDamage(damage, home);
+					puts "You damaged #{monster.type} with #{weapon.name} for #{damage}";
 				end
-
-				# Monsters Attack
-				home.monsters.each do |monster|
-					@player.takeDamage(monster.attack);
+			end
+			puts "\n";
+			# Monsters Attack
+			home.monsters.each do |monster|
+				@player.takeDamage(monster.attack);
+				if(monster.type == "person")
+					puts "#{monster.type} gives you candy healing 1 Health Point";
+				else
 					puts "#{monster.type} hit you for #{monster.attack}";
 				end
-			else
-				puts "That is not a command";
+
+				if(@player.health == 0)
+					return nil;
+				end
+			end
+
+			wait = gets.chomp;
+			system("cls");
+			home.monsterStats();
+			puts "\n";
+			@player.stats();
+			wait = gets.chomp;
+			system("cls");
+
+			puts "Do you want to attack again? (y or n)";
+			choice = gets.chomp;
+
+			if(choice == 'n')
+				attacking = false;
 			end
 		end
 	end
