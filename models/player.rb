@@ -3,6 +3,7 @@ require "./models/weapons/hershey-kiss";
 require "./models/weapons/nerd-bomb";
 require "./models/weapons/sour-straw";
 
+# Class to store player information
 class Player
 	def initialize(name)
 		@name = name
@@ -13,6 +14,8 @@ class Player
 		@location = 5;
 
 		@inventory << HersheyKiss.new(); #Only add one of these to inventory since it has unlimited uses
+
+		# Loop to set up inventory
 		for i in 1..9 do
 			randNum = Random.rand(1..3);
 
@@ -29,6 +32,7 @@ class Player
 		end
 	end
 
+	# applies damage to user making sure to never go below 0 and never go above maxHealth
 	def takeDamage(damage)
 		@health = @health - damage;
 
@@ -41,6 +45,7 @@ class Player
 		end
 	end
 
+	# Prints Player stats
 	def stats()
 		puts "Player Health: #{@health}/#{@maxHealth}";
 		puts "Player Attack: #{@attack}";

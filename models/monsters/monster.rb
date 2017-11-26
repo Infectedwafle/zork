@@ -1,5 +1,6 @@
 require "observer";
 
+# Simple monster class that all monsters inherit from
 class Monster include Observable
 	def initialize(health, attack)
 		@type = 'monster'

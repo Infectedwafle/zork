@@ -1,3 +1,5 @@
+# Returns a list of commands depending on context
+# TODO: create a print commands or help method
 class Command
 	def initialize(type)
 		@commands = Hash.new();

@@ -1,5 +1,5 @@
 require "observer";
-
+# Basic weapon class that all other weapons inherit
 class Weapon include Observable
 	def initialize()
 		@name = 'weapon';

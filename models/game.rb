@@ -12,6 +12,7 @@ class Game
 
 	end
 
+	# Starts the game and gets the players name
 	def start()
 		puts "Welcome to ZORK!";
 		puts "Your neighborhood has been overrun with monsters.";
@@ -24,13 +25,18 @@ class Game
 		puts "#{@player.name} you are standing in front of your house at the center of your neighborhood";
 	end
 
+	# A loop that runs until the neighborhood is saved or the player dies
 	def runLoop()
 		gameWon = false;
+
+		# Setup the command for when in a house and when in the neighborhood
 		neighborhoodCommands = Command.new(nil);
 		houseCommands = Command.new("house");
 		home = nil; 
 		
+		# Game Loop until Player dies or game is won
 		while(!gameWon)
+			# Check to see if is in a home or not
 			if(home === nil)
 				home = neighborhoodLoop(neighborhoodCommands, home);
 			else
@@ -38,11 +44,13 @@ class Game
 				home = nil;
 			end
 
+			# Check for player death
 			if(@player.health == 0)
 				puts "You have died and failed everyone in your neighborhood.  Too Bad!";
 				return nil;
 			end
 
+			# Check if neighborhood is clear
 			if(@neighborhood.all_clear())
 				gameWon = true;
 			end
@@ -51,6 +59,7 @@ class Game
 		puts "You have saved the neighborhood!!!"
 	end
 
+	# the neighborhood Loop it controls moving around the neighboorhood and entering houses
 	def neighborhoodLoop(command, home)
 		case command.getCommand()
 		when 'left'
@@ -77,7 +86,7 @@ class Game
 		when 'down'
 			if(@player.location - 3 > 0)
 				@player.location = @player.location - 3;
-				puts "You have moved north to another house."
+				puts "You have moved south to another house."
 			else
 				puts "You are at the edge of your neighborhood and cannot go further south."
 			end
@@ -91,7 +100,9 @@ class Game
 				end
 			end
 		when 'sm'
+			puts "You lost the map and connot use it anymore";
 			# print map of houses and monster count info
+			# TODO: print map of neighborhood
 		when 'eh'
 			puts "You entered house number #{@player.location}";
 			home = @neighborhood.homes[@player.location - 1];
@@ -104,6 +115,7 @@ class Game
 		return home
 	end
 
+	# Runs a loop wile in the home
 	def homeLoop(commands, home)
 		while(true) #wait for commands until house exited
 			case commands.getCommand()
@@ -127,6 +139,7 @@ class Game
 		end
 	end
 
+	# Runs the loop for attacking monsters in the house
 	def attackLoop(home)
 		attacking = true;
 		
@@ -152,6 +165,7 @@ class Game
 				end
 			end
 			puts "\n";
+
 			# Monsters Attack
 			home.monsters.each do |monster|
 				@player.takeDamage(monster.attack);
@@ -166,13 +180,13 @@ class Game
 				end
 			end
 
-			wait = gets.chomp;
-			system("cls");
+			wait = gets.chomp; # wait so user can read screen before showing monster and player stats
+			system("clear");
 			home.monsterStats();
 			puts "\n";
 			@player.stats();
-			wait = gets.chomp;
-			system("cls");
+			wait = gets.chomp; # wait so user can read screen
+			system("clear");
 
 			puts "Do you want to attack again? (y or n)";
 			choice = gets.chomp;
