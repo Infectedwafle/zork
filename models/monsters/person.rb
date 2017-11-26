@@ -6,4 +6,8 @@ class Person < Monster
 		@health = 100
 		@attack = -1
 	end
+
+	def takeDamage(damage) 
+		#does not take damage
+	end
 end

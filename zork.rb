@@ -8,7 +8,7 @@ system("cls");
 puts a.asciify('ZORK!');
 puts "1 - Start the Game";
 puts "2 - Options";
-puts "3 - Options";
+puts "3 - Exit";
 
 choice = gets.chomp.to_i;
 

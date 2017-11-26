@@ -3,7 +3,18 @@ class Command
 		@commands = Hash.new();
 
 		if(type == "house")
-
+			@commands["attack monster"] =	 "am";
+			@commands["attack"] =			 "am";
+			@commands["am"] =				 "am";
+			@commands["house status"] =		 "hs";
+			@commands["hs"] =				 "hs";
+			@commands["show inventory"] =	 "si";
+			@commands["si"] =				 "si";
+			@commands["exit house"] =		 "eh";
+			@commands["eh"] =				 "eh";
+		elsif(type == "attack")
+			@commands["a"] =				 "a";
+			@commands["attack"] =			 "a";
 		else
 			@commands["left"] =				 "left";
 			@commands["west"] =				 "left";

@@ -10,6 +10,11 @@ class Neighborhood include Observable
 		end
 	end
 
+	def all_clear()
+		cleansedHouses = @homes.select { |h| h.cleared == true}; 
+		return cleansedHouses == @homes.length;
+	end
+
 	attr_accessor :homes
 end
 

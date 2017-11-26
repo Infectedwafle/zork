@@ -37,6 +37,10 @@ class Home include Observable
 		return tempMonsters.length;
 	end
 
+	def getStatus()
+		puts "#{self.getMonsterCount()} monsters remaining";
+	end
+
 
 	attr_accessor :monsters
 	attr_accessor :poppulation

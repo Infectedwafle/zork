@@ -14,10 +14,10 @@ class Game
 
 	def start()
 		puts "Welcome to ZORK!";
-		puts "Your neighborhood has been overrun with monsters";
-		puts "You have been tasked with clearing the area of all monsters in the area";
-		system('cls');
-		puts "What is your name?";
+		puts "Your neighborhood has been overrun with monsters.";
+		puts "You have been tasked with clearing the area of all monsters.";
+		
+		puts "\n\nWhat is your name?";
 		name = gets.chomp;
 		@player = Player.new(name);
 		system('cls');
@@ -25,16 +25,22 @@ class Game
 	end
 
 	def runLoop()
-		gameWon = false
+		gameWon = false;
 		neighborhoodCommands = Command.new(nil);
 		houseCommands = Command.new("house");
-		house = nil; 
+		home = nil; 
 		
 		while(!gameWon)
-			if(house == nil)
+			puts "#{home}";
+			if(home === nil)
 				home = neighborhoodLoop(neighborhoodCommands, home);
 			else
-				homeLoop(houseCommands);
+				homeLoop(houseCommands, home);
+				home = nil;
+			end
+
+			if(@neighborhood.all_clear())
+				gameWon = true;
 			end
 		end
 	end
@@ -73,9 +79,9 @@ class Game
 			puts "Weapon Name\t-\tUses"
 			@player.inventory.each do |weapon|
 				if(weapon.uses < 0)
-					puts "#{weapon.name}\t-\tInfinity";
+					puts "#{weapon.name}\t-\tUnlimited uses";
 				else
-					puts "#{weapon.name}\t-\t#{weapon.uses}";
+					puts "#{weapon.name}\t-\t#{weapon.uses} uses";
 				end
 			end
 		when 'sm'
@@ -90,13 +96,63 @@ class Game
 		return home
 	end
 
-	def homeLoop(command, home)
-		puts "Enter House";
-		case command.getCommand()
-		when 'left'
-			puts 'You are moving left';
-		else
-			puts "That is not a command.";
+	def homeLoop(commands, home)
+		attackCommands = Command.new("attack")
+		while(true) #wait for commands until house exited
+			case commands.getCommand()
+			
+			when 'am'
+				attackLoop(attackCommands, home)
+			when 'hs'
+				# Show staus of house here
+				home.getStatus();
+			when 'si'
+				# show remaining inventory
+			when 'eh'
+				# exit the house
+				puts puts "You exited house number #{@player.location}"
+				return nil;
+			else
+				puts "That is not a command.";
+			end
+		end
+	end
+
+	def attackLoop(commands, home)
+		attacking = true;
+
+		while attacking
+			case commands.getCommand()
+			when 'a'
+				puts "Choose a weapon";
+				for i in 1..@player.inventory.length do
+					if(@player.inventory[i-1].uses < 0)
+						puts "#{i} - #{@player.inventory[i-1].name} Unlimited uses"
+					else
+						puts "#{i} - #{@player.inventory[i-1].name} #{@player.inventory[i-1].uses} uses"
+					end
+				end
+
+				weaponNumber = gets.chomp.to_i;
+				weapon = @player.inventory[weaponNumber - 1];
+
+				# Player Attacks
+				home.monsters.each do |monster|
+					if(monster.type != 'person')
+						damage = @player.attack * weapon.attack_modifier;
+						monster.takeDamage(damage);
+						puts "You damaged #{monster.type} with #{weapon.name} for #{damage}";
+					end
+				end
+
+				# Monsters Attack
+				home.monsters.each do |monster|
+					@player.takeDamage(monster.attack);
+					puts "#{monster.type} hit you for #{monster.attack}";
+				end
+			else
+				puts "That is not a command";
+			end
 		end
 	end
 end
