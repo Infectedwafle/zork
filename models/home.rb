@@ -5,7 +5,8 @@ require "./models/monsters/werewolf";
 require "./models/monsters/zombie";
 require "observer";
 
-class Home include Observable
+class Home 
+	include Observable
 	def initialize()
 		# The total poppulation of the house
 		@poppulation = Random.rand(1..10);

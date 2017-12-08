@@ -1,7 +1,8 @@
 require "./models/home";
 require "observer";
 
-class Neighborhood include Observable
+class Neighborhood 
+	include Observable
 	# initialize the neighborhood defaults to 9 houses 
 	def initialize(houseCount = 9)
 		# Array for holding the homes in the neighborhood

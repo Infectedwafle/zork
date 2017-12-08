@@ -181,12 +181,12 @@ class Game
 			end
 
 			wait = gets.chomp; # wait so user can read screen before showing monster and player stats
-			system("clear");
+			system("cls");
 			home.monsterStats();
 			puts "\n";
 			@player.stats();
 			wait = gets.chomp; # wait so user can read screen
-			system("clear");
+			system("cls");
 
 			puts "Do you want to attack again? (y or n)";
 			choice = gets.chomp;
